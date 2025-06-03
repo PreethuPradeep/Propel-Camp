@@ -482,7 +482,5 @@ def lab_menu():
             break
 
 
-def main():
-    if login()
 
-main()
+ if login():
