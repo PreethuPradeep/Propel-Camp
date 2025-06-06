@@ -25,14 +25,14 @@ A simple command-line program written in Python to manage a collection of books 
 - **Number of Copies**
 
 ---
+## Default login
+username: admin
+password: 1234
+---
 
 ## How to Run
 
 ```bash
 python main.py
 
----
 
-## Default login
-username: admin
-password: 1234
