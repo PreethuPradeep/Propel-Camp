@@ -1,26 +1,3 @@
-#Create a library management system in python.
-# The system should support Login functionality and allow
-#  performuing crud operations on books
-# 
-# Requirements:
-# 1. Login System
-#   Predefined username and password
-# 
-# 2. Menu after login
-#       After successful login, show menu
-#           Add book
-#           View all books
-#           update books
-#           delete nbook
-#           search book
-#           exit
-# 
-# 3. Each book should have 
-#       BookID (unique)
-#       Title
-#       Author
-#       Year
-#       Number of copies 
 books={}
 username="admin"
 password="1234"
@@ -58,9 +35,9 @@ def update_books():
     if BookId in books:
         print("Enter new Details... or leave empty if you want to keep the current value")
         Title=input(f"Update Title: [{books[BookId]['Title: ']}]") or books[BookId]['Title: ']
-        Author=input(f"\nUpdate Author's Name: [{books[BookId]['Author Of the Book: ']}]") or books[Author]['Author Of the Book: ']
-        Year=input(f"\nYear Of Publishing: [{books[BookId]['Year Of Publishing: ']}") or books[Year]['Year Of Publishing: ']
-        NumCopies=input(f"\nNumber of Copies: [{books[BookId]['Number Of Copies: ']}]") or books[NumCopies]['Number Of Copies: ']
+        Author=input(f"\nUpdate Author's Name: [{books[BookId]['Author Of the Book: ']}]") or books[BookId]['Author Of the Book: ']
+        Year=input(f"\nYear Of Publishing: [{books[BookId]['Year Of Publishing: ']}]") or books[BookId]['Year Of Publishing: ']
+        NumCopies=input(f"\nNumber of Copies: [{books[BookId]['Number Of Copies: ']}]") or books[BookId]['Number Of Copies: ']
         books[BookId]={"Title: ":Title,"Author Of the Book: ":Author,"Year Of Publishing: ":Year,"Number Of Copies: ":NumCopies}
 
 def delete_book():
