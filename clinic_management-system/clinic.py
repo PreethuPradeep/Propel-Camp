@@ -1,486 +1,550 @@
-username1="admin"
-password1="1234"
-username2="recept"
-password2="1234"
-username3="pharm"
-password3="1234"
-username4="labtech"
-password4="1234"
+# User credentials
+username1 = "admin"
+password1 = "1234"
+username2 = "recept"
+password2 = "1234"
+username3 = "pharm"
+password3 = "1234"
+username4 = "labtech"
+password4 = "1234"
 
+# Data stores
+patients = {}
+staffs = {}
+medicines = {}
+tests = {}
+
+# Login function
 def login():
-    uname=input("Username: ")
-    pwd=input("Password: ")
-    if uname==username1 and pwd==password1:
+    uname = input("Username: ")
+    pwd = input("Password: ")
+    if uname == username1 and pwd == password1:
         print("Login Successful!")
         return admin_menu()
-    if uname==username2 and pwd==password2:
+    elif uname == username2 and pwd == password2:
         print("Login Successful!")
         return recept_menu()
-    if uname==username3 and pwd==password3:
+    elif uname == username3 and pwd == password3:
         print("Login Successful!")
         return pharm_menu()
-    if uname==username4 and pwd==password4:
+    elif uname == username4 and pwd == password4:
         print("Login Successful!")
         return lab_menu()
     else:
         print("Invalid Credentials!")
         return False
 
-patients={}
-staffs={}
-medicines={}
-tests={}
+# --- Patient Functions ---
 
 def add_patient():
-    patient_id=input("Enter patient Id: ")
+    patient_id = input("Enter patient Id: ")
     if patient_id in patients:
         print("Patient already exists!")
         return
-    name=input("Enter the patient Name: ").title()
+    name = input("Enter the patient Name: ").title()
     try:
-        age=int(input("Enter the patient Age: "))
+        age = int(input("Enter the patient Age: "))
     except:
-        print("Enter numbers only")
+        print("Enter numbers only for Age!")
         return
-    address=input("Enter the patient Address: ").title()
-    disease=input("Enter the patient disease: ").title()
-    blood_group=input("Enter the patient Blood Group: ").upper()
+    address = input("Enter the patient Address: ").title()
+    disease = input("Enter the patient disease: ").title()
+    blood_group = input("Enter the patient Blood Group: ").upper()
     try:
-        weight=float(input("Enter the patient weight: "))
+        weight = float(input("Enter the patient weight: "))
     except:
-        print("Error. Please enter only numbers!")
-        return
-    try:
-        height=float(input("Enter the patient height: "))
-    except:
-        print("Error. Please enter only numbers!")
+        print("Error. Please enter only numbers for weight!")
         return
     try:
-        phoneNumber=int(input("Enter the patient Phone number: "))
+        height = float(input("Enter the patient height: "))
     except:
-        print("Error. Please enter only numbers!")
+        print("Error. Please enter only numbers for height!")
         return
     try:
-        patients[patient_id]={"Name: ":name,"Age: ":age,"Address: ":address,"Disease: ":disease,"Blood Group: ":blood_group,"weight: ":weight,"height: ":height,"Phone Number: ":phoneNumber}
+        phoneNumber = int(input("Enter the patient Phone number: "))
     except:
-        print("Error. Please try again.")
+        print("Error. Please enter only numbers for phone number!")
         return
-    print("Patient Detailes successfully added!")
 
+    patients[patient_id] = {
+        "Name: ": name,
+        "Age: ": age,
+        "Address: ": address,
+        "Disease: ": disease,
+        "Blood Group: ": blood_group,
+        "Weight: ": weight,
+        "Height: ": height,
+        "Phone Number: ": phoneNumber
+    }
+    print("Patient details successfully added!")
 
 def View_patients():
     if not patients:
         print("No patients currently admitted.")
     else:
         for patient_id, info in patients.items():
-            print(" ")
-            print(f"{patient_id}. ,\nPatient's Name: {info['Name: ']},\nAge: {info['Age: ']},\nAddress: {info['Address: ']},\nDisease: {info['Disease: ']},\nBlood Group: {info['Blood Group: ']},\nweight: {info['weight: ']},\nheight: {info['height: ']},\nPhone Number: {info['Phone Number: ']}\n")
+            print("\n")
+            print(f"Patient ID: {patient_id}")
+            for key, val in info.items():
+                print(f"{key} {val}")
 
 def Search_patient():
-    patient_id=input("Enter the Id of the patient you want to find: ")
+    patient_id = input("Enter the Id of the patient you want to find: ")
     if patient_id in patients:
-        print(" ")
-        print("Patient Found!")
-        print("\tPatient Id: ",patient_id)
-        print("\tPatient's Name: ",patients[patient_id]['Name: '])
-        print("\tAge: ",patients[patient_id]['Age: '])
-        print("\tAddress: ",patients[patient_id]['Address: '])
-        print("\tDisease: ",patients[patient_id]['Disease: '])
-        print("\tBlood Group: ",patients[patient_id]['Blood Group: '])
-        print("\tWeight: ",patients[patient_id]['weight: '])
-        print("\tHeight: ",patients[patient_id]['height: '])
-        print("\tPhone Number: ",patients[patient_id]['Phone Number: '])
-        print(" ")
+        print("\nPatient Found!")
+        print(f"\tPatient Id: {patient_id}")
+        for key, val in patients[patient_id].items():
+            print(f"\t{key} {val}")
+        print()
     else:
         print("Patient not Found!")
 
 def Update_records():
-    patient_id=input("Enter the Id of the patient you want to update: ")
+    patient_id = input("Enter the Id of the patient you want to update: ")
     if patient_id in patients:
         print("Enter new Details... or leave empty for no changes")
-        Name=input(f"Update Name: [{patients[patient_id]['Name: ']}]") or patients[patient_id]['Name: ']
+        current = patients[patient_id]
+        Name = input(f"Update Name [{current['Name: ']}]: ") or current['Name: ']
         try:
-            Age=int(input(f"Update Age: [{patients[patient_id]['Age: ']}]")) or patients[patient_id]['Age: ']
+            Age_input = input(f"Update Age [{current['Age: ']}]: ")
+            Age = int(Age_input) if Age_input else current['Age: ']
         except:
-            print("Only numbers are accepted!")
+            print("Only numbers are accepted for Age!")
             return
-        Address=input(f"Update Address: [{patients[patient_id]['Address: ']}]") or patients[patient_id]['Age: ']
-        Disease=input(f"Update Disease: [{patients[patient_id]['Disease: ']}]") or patients[patient_id]['Disease: ']
-        Blood_Group=input(f"Update Blood Group: [{patients[patient_id]['Blood Group: ']}]") or patients[patient_id]['Blood Group: ']
+        Address = input(f"Update Address [{current['Address: ']}]: ") or current['Address: ']
+        Disease = input(f"Update Disease [{current['Disease: ']}]: ") or current['Disease: ']
+        Blood_Group = input(f"Update Blood Group [{current['Blood Group: ']}]: ") or current['Blood Group: ']
         try:
-            Weight=float(input(f"Update weight: [{patients[patient_id]['weight: ']}]") or patients[patient_id]['weight: '])
+            Weight_input = input(f"Update Weight [{current['Weight: ']}]: ")
+            Weight = float(Weight_input) if Weight_input else current['Weight: ']
         except:
-            print("Only numbers are accepted!")
-            return
-        try:
-            Height=input(f"Update height: [{patients[patient_id]['height: ']}]") or patients[patient_id]['height: ']
-        except:
-            print("Only numbers are accepted!")
+            print("Only numbers are accepted for Weight!")
             return
         try:
-            Phone_Number=input(f"Update Phone Number: [{patients[patient_id]['Phone Number: ']}]") or patients[patient_id]['Phone Number: ']
+            Height_input = input(f"Update Height [{current['Height: ']}]: ")
+            Height = float(Height_input) if Height_input else current['Height: ']
         except:
-            print("Only numbers are accepted!")
+            print("Only numbers are accepted for Height!")
             return
         try:
-            patients[patient_id]={"Name: ":Name,"Age: ":Age,"Address: ":Address,"Disease: ":Disease,"Blood Group: ":Blood_Group,"Weight: ":Weight,"Height: ":Height,"Phone Number: ":Phone_Number}
+            Phone_input = input(f"Update Phone Number [{current['Phone Number: ']}]: ")
+            Phone_Number = int(Phone_input) if Phone_input else current['Phone Number: ']
         except:
-            print("Try again!")
+            print("Only numbers are accepted for Phone Number!")
             return
-        print("Patient details Updated successfully!")
+
+        patients[patient_id] = {
+            "Name: ": Name,
+            "Age: ": Age,
+            "Address: ": Address,
+            "Disease: ": Disease,
+            "Blood Group: ": Blood_Group,
+            "Weight: ": Weight,
+            "Height: ": Height,
+            "Phone Number: ": Phone_Number
+        }
+        print("Patient details updated successfully!")
+    else:
+        print("Patient not found.")
 
 def Delete_record():
-    patient_id=input("Enter the id of the patient who you wnat to remove: ")
+    patient_id = input("Enter the id of the patient you want to remove: ")
     if patient_id in patients:
         del patients[patient_id]
-        print("Patient details succsesfully deleted!")
+        print("Patient details successfully deleted!")
     else:
         print("No such patient exists in the system!")
 
+# --- Staff Functions ---
 
 def add_staff():
-    staff_id=input("Enter staff Id: ")
+    staff_id = input("Enter staff Id: ")
     if staff_id in staffs:
         print("Staff Member already exists!")
         return
-    name=input("Enter the Staff Member Name: ").title()
-    designation=input("Enter the Staff Member designation").title()
-    location=input("Enter the Staff Member location: ").title()
-    dateOfJoining=input("Enter the Staff Member date of joining: ")
+    name = input("Enter the Staff Member Name: ").title()
+    designation = input("Enter the Staff Member designation: ").title()
+    location = input("Enter the Staff Member location: ").title()
+    dateOfJoining = input("Enter the Staff Member date of joining: ")
     try:
-        salary=float(input("Enter the Staff Member salary: "))
+        salary = float(input("Enter the Staff Member salary: "))
     except:
-        print("Error. Please enter only numbers!")
+        print("Error. Please enter only numbers for salary!")
         return
     try:
-        age=int(input("Enter the Staff Member age: "))
+        age = int(input("Enter the Staff Member age: "))
     except:
-        print("Error. Please enter only numbers!")
+        print("Error. Please enter only numbers for age!")
         return
     try:
-        phoneNumber=int(input("Enter the Staff Member Phone number: "))
+        phoneNumber = int(input("Enter the Staff Member Phone number: "))
     except:
-        print("Error. Please enter only numbers!")
+        print("Error. Please enter only numbers for phone number!")
         return
-    try:
-        staffs[staff_id]={"Name: ":name,"Age: ":age,"Designation: ":designation,"Location: ":location,"Date Of Joining: ":dateOfJoining,"Salary: ":salary,"Phone Number: ":phoneNumber}
-    except:
-        print("Error. Please try again.")
-        return
-    print("Staff Member Detailes successfully added!")
+
+    staffs[staff_id] = {
+        "Name: ": name,
+        "Age: ": age,
+        "Designation: ": designation,
+        "Location: ": location,
+        "Date Of Joining: ": dateOfJoining,
+        "Salary: ": salary,
+        "Phone Number: ": phoneNumber
+    }
+    print("Staff Member details successfully added!")
 
 def View_staff():
     if not staffs:
         print("No Staff members currently admitted.")
     else:
         for staff_id, info in staffs.items():
-            print(" ")
-            print(f"{staff_id}. ,\nStaff's Name: {info['Name: ']},\nAge: {info['Age: ']},\nDesignation: {info['Designation: ']},\nDate Of Joining: {info['dateOfJoining: ']},\nLocation: {info['location: ']},\nSalary: {info['salary: ']},\nPhone Number: {info['Phone Number: ']}\n")
-
+            print("\n")
+            print(f"Staff ID: {staff_id}")
+            for key, val in info.items():
+                print(f"{key} {val}")
 
 def Search_staff():
-    staff_id=input("Enter the Id of the staff you want to find: ")
+    staff_id = input("Enter the Id of the staff you want to find: ")
     if staff_id in staffs:
-        print(" ")
-        print("Staff Found!")
-        print("\tStaff Id: ",staff_id)
-        print("\tStaff's Name: ",staffs[staff_id]['Name: '])
-        print("\tStaff's Age: ",staffs[staff_id]['Age: '])
-        print("\tDesignation: ",staffs[staff_id]['Designation: '])
-        print("\tDate Of Joining: ",staffs[staff_id]['Date Of Joining: '])
-        print("\tLocation: ",staffs[staff_id]['Location: '])
-        print("\tSalary: ",staffs[staff_id]['Salary: '])
-        print("\tPhone Number: ",staffs[staff_id]['Phone Number: '])
-        print(" ")
+        print("\nStaff Found!")
+        print(f"\tStaff Id: {staff_id}")
+        for key, val in staffs[staff_id].items():
+            print(f"\t{key} {val}")
+        print()
     else:
-        print("Patient not Found!")
-
+        print("Staff not Found!")
 
 def Update_staff():
-    staff_id=input("Enter the Id of the staff you want to update: ")
+    staff_id = input("Enter the Id of the staff you want to update: ")
     if staff_id in staffs:
         print("Enter new Details... or leave empty for no changes")
-        Name=input(f"Update Name: [{staffs[staff_id]['Name: ']}]") or staffs[staff_id]['Name: ']
-        try:
-            Age=int(input(f"Update Age: [{staffs[staff_id]['Age: ']}]")) or staffs[staff_id]['Age: ']
-        except:
-            print("Only numbers are accepted!")
-            return
-        Designation=input(f"Update Designation: [{staffs[staff_id]['Designation: ']}]") or staffs[staff_id]['Age: ']
-        dateOfJoining=input(f"Update Date Of Joining: [{staffs[staff_id]['Date Of Joining: ']}]") or staffs[staff_id]['Date Of Joining: ']
-        Location=input(f"Update Location: [{staffs[staff_id]['Location: ']}]") or staffs[staff_id]['Location: ']
-        try:
-            Salary=input(f"Update Salary: [{staffs[staff_id]['Salary: ']}]") or staffs[staff_id]['Salary: ']
-        except:
-            print("Only numbers are accepted!")
-            return
-        try:
-            Phone_Number=input(f"Update Phone Number: [{staffs[staff_id]['Phone Number: ']}]") or staffs[staff_id]['Phone Number: ']
-        except:
-            print("Only numbers are accepted!")
-            return
-        try:
-            staffs[staff_id]={"Name: ":Name,"Age: ":Age,"Designation: ":Designation,"Date Of Joining: ":dateOfJoining,"Location: ":Location,"Salary: ":Salary,"Phone Number: ":Phone_Number}
-        except:
-            print("Try again!")
-            return
-        print("Staff details Updated successfully!")
-    else:
-        print("Staff id not recognized. Try")
+        current = staffs[staff_id]
 
+        Name = input(f"Update Name [{current['Name: ']}]: ") or current['Name: ']
+        try:
+            Age_input = input(f"Update Age [{current['Age: ']}]: ")
+            Age = int(Age_input) if Age_input else current['Age: ']
+        except:
+            print("Only numbers are accepted for Age!")
+            return
+        Designation = input(f"Update Designation [{current['Designation: ']}]: ") or current['Designation: ']
+        dateOfJoining = input(f"Update Date Of Joining [{current['Date Of Joining: ']}]: ") or current['Date Of Joining: ']
+        Location = input(f"Update Location [{current['Location: ']}]: ") or current['Location: ']
+        try:
+            Salary_input = input(f"Update Salary [{current['Salary: ']}]: ")
+            Salary = float(Salary_input) if Salary_input else current['Salary: ']
+        except:
+            print("Only numbers are accepted for Salary!")
+            return
+        try:
+            Phone_input = input(f"Update Phone Number [{current['Phone Number: ']}]: ")
+            Phone_Number = int(Phone_input) if Phone_input else current['Phone Number: ']
+        except:
+            print("Only numbers are accepted for Phone Number!")
+            return
+
+        staffs[staff_id] = {
+            "Name: ": Name,
+            "Age: ": Age,
+            "Designation: ": Designation,
+            "Date Of Joining: ": dateOfJoining,
+            "Location: ": Location,
+            "Salary: ": Salary,
+            "Phone Number: ": Phone_Number
+        }
+        print("Staff details updated successfully!")
+    else:
+        print("Staff ID not recognized. Try again.")
 
 def Delete_staff():
-    staff_id=input("Enter the staff id you want to delete: ")
+    staff_id = input("Enter the staff id you want to delete: ")
     if staff_id in staffs:
         del staffs[staff_id]
-        print("Staff id deleted Successfully")
+        print("Staff id deleted successfully!")
     else:
-        print("No such staff exists in system!")
+        print("No such staff exists in the system!")
 
+# --- Medicine Functions ---
 
 def add_Medicine():
-    medicine_id=input("Enter the medicine id: ")
+    medicine_id = input("Enter the medicine id: ")
     if medicine_id in medicines:
         print("Medicine already exists!")
         return
-    medicine_name=input("Enter the Medicine Name: ").title()
-    generic_name=input("Enter the generic name of the medicine").title
-    company_name=input("Enter the Company name: ").title()
+    medicine_name = input("Enter the Medicine Name: ").title()
+    generic_name = input("Enter the generic name of the medicine: ").title()
+    company_name = input("Enter the Company name: ").title()
     try:
-        price=int(input("Enter the price of the medicine: "))
+        price = float(input("Enter the price of the medicine: "))
     except:
-        print("Enter numbers only!")
+        print("Enter numbers only for price!")
         return
+
+    medicines[medicine_id] = {
+        "Name: ": medicine_name,
+        "Generic Name: ": generic_name,
+        "Company Name: ": company_name,
+        "Price: ": price
+    }
+    print("Medicine details successfully added!")
 
 def View_Medicine():
     if not medicines:
         print("No medicines currently entered!")
     else:
         for medicine_id, info in medicines.items():
-            print(" ")
-            print(f"{medicine_id}. ,\nmedicine's Name: {info['medicine_name: ']},\nGeneric Name: {info['generic_name: ']},\nCompany Name: {info['company_name: ']},\nPrice: {info['price: ']}\n")
-
-def Search_Medicine():
-    medicine_id=input("Enter the Id of the medicine you want to find: ")
-    if medicine_id in medicines:
-        print(" ")
-        print("medicine Found!")
-        print("\tmedicine Id: ",medicine_id)
-        print("\tmedicine's Name: ",medicines[medicine_id]['Name: '])
-        print("\tGeneric Name: ",medicines[medicine_id]['Generic Name: '])
-        print("\tCompany's Name: ",medicines[medicine_id]['Company Name: '])
-        print("\tPrice: ",medicines[medicine_id]['Price: '])
-        print(" ")
-    else:
-        print("medicine not Found!")
+            print(f"\nMedicine ID: {medicine_id}")
+            for key, val in info.items():
+                print(f"{key} {val}")
 
 def Update_Medicine():
-    medicine_id=input("Enter the Id of the medicine you want to update: ")
+    medicine_id = input("Enter the medicine id you want to update: ")
     if medicine_id in medicines:
         print("Enter new Details... or leave empty for no changes")
-        Name=input(f"Update Name: [{medicines[medicine_id]['Name: ']}]") or medicines[medicine_id]['Name: ']
-        generic_name=input(f"Update generic name: [{medicines[medicine_id]['generic_name: ']}]") or medicines[medicine_id]['generic_name: ']
-        
-        Company_Name=input(f"Update Company Name: [{medicines[medicine_id]['Company Name: ']}]") or medicines[medicine_id]['Company Name: ']
+        current = medicines[medicine_id]
+        Name = input(f"Update Medicine Name [{current['Name: ']}]: ") or current['Name: ']
+        Generic_Name = input(f"Update Generic Name [{current['Generic Name: ']}]: ") or current['Generic Name: ']
+        Company_Name = input(f"Update Company Name [{current['Company Name: ']}]: ") or current['Company Name: ']
         try:
-            price=float(input(f"Update price: [{medicines[medicine_id]['price: ']}]") or medicines[medicine_id]['price: '])
+            Price_input = input(f"Update Price [{current['Price: ']}]: ")
+            Price = float(Price_input) if Price_input else current['Price: ']
         except:
-            print("Only numbers are accepted!")
+            print("Enter numbers only for price!")
             return
-        
-        try:
-            medicines[medicine_id]={"Name: ":Name,"Generic name: ":generic_name,"Company Name: ":Company_Name,"Price: ":price}
-        except:
-            print("Try again!")
-            return
-        print("Medicine details Updated successfully!")
 
-
-def add_Test():
-    test_id=input("Enter new test id: ").upper()
-    test_name=input("Enter the test name: ").title()
-    try:
-        minimum_range=float(input("Enter the minimum range of test results: "))
-    except:
-        print("Enter numbers only!")
-        return
-    try:
-        maximum_range=float(input("Enter the maximum range of test results: "))
-    except:
-        print("Enter numbers only!")
-        return
-    try:
-        price=float(input("Enter the cost of the test: "))
-    except:
-        print("Enter numbers only!")
-        return
-    
-
-def View_Test():
-    if not tests:
-        print("No Tests currently entered!")
-    else:
-        for test_id, info in tests.items():
-            print(" ")
-            print(f"{test_id}. ,\nTest's Name: {info['test_name: ']},\nMinimum_Range: {info['minimum_range: ']},\nMaximum_Range: {info['maximum_range: ']},\nPrice: {info['price: ']}\n")
-
-
-def Search_Test():
-    test_id=input("Enter the Id of the Test you want to find: ")
-    if test_id in tests:
-        print(" ")
-        print("Test Found!")
-        print("\ttest Id: ",test_id)
-        print("\ttest's Name: ",tests[test_id]['Name: '])
-        print("\tMinimum Range: ",tests[test_id]['Minimum Range: '])
-        print("\tMaximum Range: ",tests[test_id]['Maximum Range: '])
-        print("\tPrice: ",tests[test_id]['price: '])
-        print(" ")
-    else:
-        print("Test not Found!")
-        
-
-        
-
-
-
-
-def Delete_Test():
-    test_id=input("Enter the id of the test who you wnat to remove: ")
-    if test_id in tests:
-        del tests[test_id]
-        print("test details succsesfully deleted!")
-    else:
-        print("No such test exists in the system!")
-
-def Delete_Medicine():
-    medicine_id=input("Enter the id of the medicine who you wnat to remove: ")
-    if medicine_id in medicines:
-        del medicines[medicine_id]
-        print("medicine details succsesfully deleted!")
+        medicines[medicine_id] = {
+            "Name: ": Name,
+            "Generic Name: ": Generic_Name,
+            "Company Name: ": Company_Name,
+            "Price: ": Price
+        }
+        print("Medicine details updated successfully!")
     else:
         print("No such medicine exists in the system!")
 
+def Delete_Medicine():
+    medicine_id = input("Enter the medicine id you want to delete: ")
+    if medicine_id in medicines:
+        del medicines[medicine_id]
+        print("Medicine id deleted successfully!")
+    else:
+        print("No such medicine exists in the system!")
 
+# --- Lab Test Functions ---
 
-def recept_menu():
-    while True:
-        print("Menu: ")
-        print("\tPatient Mangement")
-        print("\t1.Add a new Patient")
-        print("\t2.View all patients")
-        print("\t3.Search for a patient")
-        print("\t4.Update an existing patients information")
-        print("\t5.Delete a patient record")
-        print("\t6.Exit System")
+def add_test():
+    test_id = input("Enter the test id: ")
+    if test_id in tests:
+        print("Test already exists!")
+        return
+    test_name = input("Enter the test name: ").title()
+    try:
+        test_cost = float(input("Enter the test cost: "))
+    except:
+        print("Error. Enter numbers only!")
+        return
+    tests[test_id] = {
+        "Test Name: ": test_name,
+        "Test Cost: ": test_cost
+    }
+    print("Test details successfully added!")
 
-        choice=input("\nEnter your choice")
-        if choice=="1":
-            add_patient()
-        elif choice=="2":
-            View_patients()
-        elif choice=="3":
-            Search_patient()
-        elif choice=="4":
-            Update_records()
-        elif choice=="5":
-            Delete_record()
-        elif choice=="6":
-            print("Exiting the system...")
-            login()
+def View_tests():
+    if not tests:
+        print("No lab tests currently entered!")
+    else:
+        for test_id, info in tests.items():
+            print(f"\nTest ID: {test_id}")
+            for key, val in info.items():
+                print(f"{key} {val}")
 
-        else:
-            print("Invalid Choice.Please try again.")
+def Update_Test():
+    test_id = input("Enter the test id you want to update: ")
+    if test_id in tests:
+        print("Enter new Details... or leave empty for no changes")
+        current = tests[test_id]
+        test_name = input(f"Update Test Name [{current['Test Name: ']}]: ") or current['Test Name: ']
+        try:
+            cost_input = input(f"Update Test Cost [{current['Test Cost: ']}]: ")
+            test_cost = float(cost_input) if cost_input else current['Test Cost: ']
+        except:
+            print("Enter numbers only for cost!")
+            return
+
+        tests[test_id] = {
+            "Test Name: ": test_name,
+            "Test Cost: ": test_cost
+        }
+        print("Test details updated successfully!")
+    else:
+        print("No such test exists in the system!")
+
+def Delete_Test():
+    test_id = input("Enter the test id you want to delete: ")
+    if test_id in tests:
+        del tests[test_id]
+        print("Test id deleted successfully!")
+    else:
+        print("No such test exists in the system!")
+
+# --- Menus ---
 
 def admin_menu():
     while True:
-        print("Admin Menu: ")
-        print("\tStaff Mangement")
-        print("\t1.Add a new Staff Member")
-        print("\t2.View all Staff details")
-        print("\t3.Search for a Staff Member")
-        print("\t4.Update an existing Staff Member's information")
-        print("\t5.Delete a Staff Member's record")
-        print("\t6.Exit System")
+        print("\nWelcome Admin")
+        print("1. Patient Menu")
+        print("2. Staff Menu")
+        print("3. Medicine Menu")
+        print("4. Lab Menu")
+        print("5. Logout")
 
-        choice=input("\nEnter your choice")
-        if choice=="1":
-            add_staff()
-        elif choice=="2":
-            View_staff()
-        elif choice=="3":
-            Search_staff()
-        elif choice=="4":
-            Update_staff()
-        elif choice=="5":
-            Delete_staff()
-        elif choice=="6":
-            print("Exiting the system...")
-            login()
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            patient_menu()
+        elif choice == "2":
+            staff_menu()
+        elif choice == "3":
+            pharm_menu()
+        elif choice == "4":
+            lab_menu()
+        elif choice == "5":
+            print("Logging out...")
+            break
         else:
-            print("Invalid Choice.Please try again.")
+            print("Invalid Choice. Try again.")
+
+def patient_menu():
+    while True:
+        print("\nPatient Menu")
+        print("1. Add Patient")
+        print("2. View Patients")
+        print("3. Search Patient")
+        print("4. Update Patient")
+        print("5. Delete Patient")
+        print("6. Back to Admin Menu")
+
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            add_patient()
+        elif choice == "2":
+            View_patients()
+        elif choice == "3":
+            Search_patient()
+        elif choice == "4":
+            Update_records()
+        elif choice == "5":
+            Delete_record()
+        elif choice == "6":
+            break
+        else:
+            print("Invalid Choice. Try again.")
+
+def staff_menu():
+    while True:
+        print("\nStaff Menu")
+        print("1. Add Staff")
+        print("2. View Staff")
+        print("3. Search Staff")
+        print("4. Update Staff")
+        print("5. Delete Staff")
+        print("6. Back to Admin Menu")
+
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            add_staff()
+        elif choice == "2":
+            View_staff()
+        elif choice == "3":
+            Search_staff()
+        elif choice == "4":
+            Update_staff()
+        elif choice == "5":
+            Delete_staff()
+        elif choice == "6":
+            break
+        else:
+            print("Invalid Choice. Try again.")
 
 def pharm_menu():
     while True:
-        print("Pharmacist Menu: ")
-        print("\tMedicine Mangement")
-        print("\t1.Add a New Medicine")
-        print("\t2.View all Medicine details")
-        print("\t3.Search for a Medicine")
-        print("\t4.Update an existing Medicine's information")
-        print("\t5.Delete a Medicine")
-        print("\t6.Exit System")
+        print("\nPharmacy Menu")
+        print("1. Add Medicine")
+        print("2. View Medicines")
+        print("3. Update Medicine")
+        print("4. Delete Medicine")
+        print("5. Back to Main Menu")
 
-        choice=input("\nEnter your choice")
-        if choice=="1":
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
             add_Medicine()
-        elif choice=="2":
+        elif choice == "2":
             View_Medicine()
-        elif choice=="3":
-            Search_Medicine()
-        elif choice=="4":
+        elif choice == "3":
             Update_Medicine()
-        elif choice=="5":
+        elif choice == "4":
             Delete_Medicine()
-        elif choice=="6":
-            print("Exiting the system...")
-            login()
+        elif choice == "5":
+            break
         else:
-            print("Invalid Choice.Please try again.")
+            print("Invalid Choice. Try again.")
 
 def lab_menu():
     while True:
-        print("Lab Technitian Menu: ")
-        print("\tTest Mangement")
-        print("\t1.Add a new Test details")
-        print("\t2.View all Test details")
-        print("\t3.Search for a Test")
-        print("\t4.Update an existing Test's information")
-        print("\t5.Delete a Test")
-        print("\t6.Exit System")
+        print("\nLab Menu")
+        print("1. Add Test")
+        print("2. View Tests")
+        print("3. Delete Test")
+        print("4. Update Test")
+        print("5. Back to Main Menu")
 
-        choice=input("\nEnter your choice")
-        if choice=="1":
-            add_Test()
-        elif choice=="2":
-            View_Test()
-        elif choice=="3":
-            Search_Test()
-        elif choice=="5":
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            add_test()
+        elif choice == "2":
+            View_tests()
+        elif choice == "3":
             Delete_Test()
-        elif choice=="6":
-            print("Exiting the system...")
-            login()
-        else:
-            print("Invalid Choice.Please try again.")
-
-    while True:
-        print("Clinical Management")
-        success = login()
-        if not success:
-            print("Exiting the system")
+        elif choice == "4":
+            Update_Test()
+        elif choice == "5":
             break
+        else:
+            print("Invalid Choice. Try again.")
 
+def recept_menu():
+    while True:
+        print("\nReceptionist Menu")
+        print("1. Add Patient")
+        print("2. View Patients")
+        print("3. Search Patient")
+        print("4. Update Patient")
+        print("5. Delete Patient")
+        print("6. Logout")
 
+        choice = input("Enter your choice: ")
 
- if login():
+        if choice == "1":
+            add_patient()
+        elif choice == "2":
+            View_patients()
+        elif choice == "3":
+            Search_patient()
+        elif choice == "4":
+            Update_records()
+        elif choice == "5":
+            Delete_record()
+        elif choice == "6":
+            print("Logging out...")
+            break
+        else:
+            print("Invalid Choice. Try again.")
+
+# Main program starts here
+while True:
+    if not login():
+        print("Login Failed. Try again or press Ctrl+C to exit.")
