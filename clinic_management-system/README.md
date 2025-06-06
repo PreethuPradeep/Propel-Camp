@@ -1,6 +1,8 @@
 #Clinic Management System
 ##  `clinic-management-system/README.md`
-```markdown
+
+---
+
 #  Clinic Management System
 
 A command-line Clinic Management System with multiple user roles (Admin, Receptionist, Pharmacist, Lab Technician), each able to manage different parts of clinic data using Python dictionaries and functions.
