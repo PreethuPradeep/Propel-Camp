@@ -31,6 +31,8 @@ A simple command-line program written in Python to manage a collection of books 
 ```bash
 python main.py
 
-## login
+---
+
+## Default login
 username: admin
 password: 1234
