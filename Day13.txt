@@ -1,0 +1,15 @@
+
+Employee table creation
+create table Employee(
+EmplyeeID int,
+EmployeeName char(20),
+EmployeeLocation char(10)
+)
+
+create table Student(
+StudentID int,
+StudentName char(20),
+age char(2),
+locationchar(20),
+DOB char(10)
+)
