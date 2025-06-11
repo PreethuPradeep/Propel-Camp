@@ -1,0 +1,197 @@
+1.
+create table Employee1(
+employeeID int,
+name char(20),
+location char(40)
+)
+
+ALTER TABLE Employee1 Modify name varchar(20)
+
+
+ALTER TABLE Employee1 MODIFY location char(60)
+
+ALTER TABLE Employee1 ADD age int
+
+aLTER TABLE Employee1 ADD address varchar(20)
+
+ALTER TABLE Employee1 RENAME COLUMN location to place
+
+ALTER TABLE Employee1 DROP COLUMN ADDRESS
+
+desc Employee1
+
+
+2.Problem
+Department
+Department id int
+Name char(20)
+Rating int
+Location varchar(20)
+
+1.	Create the table given above
+2.	Change the datatype  of name to varchar(20)
+3.	Change the length of location to varchar(50)
+4.	Add a new column ContactNo
+5.	Change the column name Location to Address
+6.	Change the name of the table to departmentMaster
+7.	Truncate the table
+8.	 Drop the table
+
+create table Department(
+Department_id int,
+Name char(20),
+Rating int,
+Location varchar(20)
+)
+
+alter table Department modify Name varchar(20)
+alter table Department modify Location varchar(50)
+alter table Department add ContactNo int
+alter table Department Rename cOLUMN Location TO Address
+rename Department to DepartmentMaster
+Truncate Table DepartmentMaster
+Drop table DepartmentMaster
+
+desc DepartmentMaster
+
+3. Create table class and student
+
+
+CREATE TABLE CLASS(
+CLASSID INT,
+CLASSNAME CHAR(20),
+CONSTRAINT CL_PK PRIMARY KEY(CLASSID)
+)
+
+CREATE TABLE STUDENT(
+STUDENTID INT,
+STUDENTNAME CHAR(20),
+CLASSID INT,
+CONSTRAINT STD_PK PRIMARY KEY(STUDENTID),
+CONSTRAINT FK_CLS FOREIGN KEY(CLASSID) REFERENCES CLASS(CLASSID)
+)
+
+desc class
+desc student
+
+4.
+staff
+	staffId pk
+	staffName
+	age
+	location
+	userid fk
+
+user
+	userid pk
+	username
+
+
+create table User1(
+userid int,
+username varchar(20),
+constraint us_pk primary key(userid)
+)
+DESC User1
+create table staff(
+staffid int,
+staffName char(20),
+age int,
+location varchar(40),
+userid int,
+constraint st_fk foreign key(userid) references User1(userid)
+)
+desc staff
+
+5.
+create table employe1(
+employeeId int,
+name char(20),
+location char(40)
+)
+insert into employe1(employeeId,name,location)values(101,'aihan','kollam')
+select * from employe1
+
+insert all
+INTO employe1(employeeId,name,location)values(102,'anu','kollam')
+INTO employe1(employeeId,name,location)values(103,'arya','trivandrum')
+INTO employe1(employeeId,name,location)values(104,'ben','kollam')
+INTO employe1(employeeId,name,location)values(105,'charlie','kottiyam')
+select * from dual;
+
+UPDATE employe1 set location='Delhi' where employeeId=101
+DELETE FROM employe1 where location='kottiyam'
+
+
+
+6.create table product(
+productid int pk,
+productName varchar(30),
+productDescription varchar(20),
+price int,
+weight int,
+companycode int
+)
+Create table company(
+companycode int pk
+companyName
+)
+
+
+create thge tables
+rename price and weight to priceperunit and weightperunit
+change the datatype of priceperunit to Number
+add a column Deliverydate
+change the length of productDescription to varchar(100)
+insert 3 rows in both tables
+change the price of product to 250 whose id is 105
+remove the data whose id is 110
+
+Create table company(
+companycode int,
+companyName varchar(20),
+constraint cmp_pk primary key(companycode)
+)
+desc company
+
+insert all
+INTO company(companycode,companyname) values(1,'hjk')
+INTO company(companycode,companyname) values(2,'hu')
+INTO company(companycode,companyname) values(3,'rtuj')
+INTO company(companycode,companyname) values(4,'guj')
+select * from dual;
+select * from company;
+
+create table product(
+productid int,
+productName varchar(30),
+productDescription varchar(20),
+price int,
+weight int,
+companycode int,
+constraint pd_fk foreign key(companycode) references company(companycode)
+)
+
+alter table product rename column price to priceperunit
+alter table product rename column weight to weightperunit
+alter table product modify priceperunit number
+alter table product add Deliverydate date
+alter table product modify productDescription varchar(100)
+
+INSERT ALL
+    INTO product(productid, productname, productdescription, priceperunit, weightperunit, companycode, deliverydate)
+        VALUES (101, 'ka', 'fxgn', 56, 7, 1, TO_DATE('01/07/1999','DD/MM/YYYY'))
+    INTO product(productid, productname, productdescription, priceperunit, weightperunit, companycode, deliverydate)
+        VALUES (103, 'djfhy', 'usafy', 43, 5, 1, TO_DATE('11/02/2001','DD/MM/YYYY'))
+    INTO product(productid, productname, productdescription, priceperunit, weightperunit, companycode, deliverydate)
+        VALUES (105, 'jhfev', 'kjash', 450, 6, 2, TO_DATE('05/03/2000','DD/MM/YYYY'))
+    INTO product(productid, productname, productdescription, priceperunit, weightperunit, companycode, deliverydate)
+        VALUES (106, 'udgf', 'jhsd', 225, 9, 2, TO_DATE('22/04/2000','DD/MM/YYYY'))
+    INTO product(productid, productname, productdescription, priceperunit, weightperunit, companycode, deliverydate)
+        VALUES (108, 'ajgh', 'juwdgh', 650, 17, 3, TO_DATE('22/01/2000','DD/MM/YYYY'))
+    INTO product(productid, productname, productdescription, priceperunit, weightperunit, companycode, deliverydate)
+        VALUES (110, 'djf', 'jdgv', 546, 34, 4, TO_DATE('21/01/1998','DD/MM/YYYY'))
+    INTO product(productid, productname, productdescription, priceperunit, weightperunit, companycode, deliverydate)
+        VALUES (112, 'sdjh', 'jsdh', 666, 22, 2, TO_DATE('12/11/1998','DD/MM/YYYY'))
+SELECT * FROM dual;
+select * from product
